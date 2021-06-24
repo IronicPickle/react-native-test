@@ -9,7 +9,7 @@ export default function List() {
 
   return (
     <View style={styles.misc.screen}>
-      <Text style={styles.text.h2}>List</Text>
+      <Text style={styles.text.h3}>List</Text>
 
       <View
         style={{

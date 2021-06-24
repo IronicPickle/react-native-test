@@ -4,6 +4,7 @@ import tabs from "./tabs";
 import misc from "./misc";
 import text from "./text";
 import inputs from "./inputs";
+import pickers from "./pickers";
 
 export default {
   ...vars,
@@ -12,4 +13,5 @@ export default {
   ...misc,
   ...text,
   ...inputs,
+  ...pickers,
 };

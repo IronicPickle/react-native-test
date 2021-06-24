@@ -1,4 +1,4 @@
-import { TextStyle } from "react-native";
+import { Platform, TextStyle } from "react-native";
 import { colors } from "./vars";
 
 const common = {
@@ -7,7 +7,7 @@ const common = {
   borderRadius: 12,
   borderWidth: 0,
   paddingHorizontal: 16,
-  paddingVertical: 12,
+  paddingVertical: Platform.OS === "android" ? 10 : 12,
   minWidth: 150,
 } as TextStyle;
 
@@ -20,7 +20,7 @@ export const inputs = {
     ...common,
     borderWidth: 1,
     borderColor: colors.smoke,
-  },
+  } as TextStyle,
 };
 
 export default { inputs };

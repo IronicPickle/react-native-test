@@ -7,6 +7,7 @@ export const tabs = {
     flexGrow: 1,
     padding: 16,
     backgroundColor: colors.mist,
+    cursor: "pointer",
   } as ViewStyle,
   baseSelected: {
     backgroundColor: colors.smoke,

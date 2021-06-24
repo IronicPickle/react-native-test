@@ -38,6 +38,12 @@ export const text = {
     ...common,
     fontSize: 12,
   } as TextStyle,
+
+  ...(Object.entries(colors).reduce((accum, entry) => {
+    const color = entry[0];
+    const rgbaValue = entry[1];
+    return { ...accum, [color]: { color: rgbaValue } as TextStyle };
+  }, {}) as { [K in keyof typeof colors]: any }),
 };
 
 export default { text };

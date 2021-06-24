@@ -8,25 +8,13 @@ export default function Home() {
 
   return (
     <View style={styles.misc.screen}>
-      <Text
-        style={{
-          fontWeight: "bold",
-          fontSize: 18,
-        }}
-      >
-        {text}
-      </Text>
+      <Text style={styles.text.h3}>{text}</Text>
       <TextInput
         value={text}
         onChangeText={setText}
         style={{
-          marginTop: 8,
-          borderWidth: 1,
-          borderColor: "darkgray",
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderRadius: 8,
-          minWidth: 200,
+          ...styles.inputs.contained,
+          marginTop: 32,
         }}
       ></TextInput>
     </View>

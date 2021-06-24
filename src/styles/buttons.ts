@@ -6,7 +6,8 @@ const common = {
   borderWidth: 0,
   paddingHorizontal: 16,
   paddingVertical: 12,
-} as TextStyle;
+  cursor: "pointer",
+} as ViewStyle;
 
 export const buttons = {
   text: {

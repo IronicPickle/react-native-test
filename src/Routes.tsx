@@ -11,6 +11,7 @@ import React from "react";
 import NavBar from "./components/layout/NavBar";
 import Home from "./pages/Home";
 import List from "./pages/List";
+import Currencies from "./pages/Currencies";
 
 export type ScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList>,
@@ -20,6 +21,7 @@ export type ScreenNavigationProp = CompositeNavigationProp<
 export type TabParamList = {
   Home: {};
   List: {};
+  Misc: {};
 };
 
 export type StackParamList = {};
@@ -36,6 +38,7 @@ export default function Routes() {
       <Tab.Group>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="List" component={List} />
+        <Tab.Screen name="Currencies" component={Currencies} />
       </Tab.Group>
     </Tab.Navigator>
   );
