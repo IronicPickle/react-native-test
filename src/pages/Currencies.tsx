@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TextInput } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import useCsLatest from "../hooks/cs/useCsLatest";
 import styles from "../styles";
 import { CSCurrencies, CSRates } from "../interfaces/cs";
 import { currencies } from "../utils/generic";
+import SearchableDropdown from "../components/common/SearchableDropdown";
 
 interface CSRate {
   currency: string;
@@ -20,6 +20,7 @@ export default function Currencies() {
   let rates = ratesToArray(data?.rates);
   if (query.length > 0) rates = filterRatesArray(rates, query);
   rates = sortRatesArray(rates, 1);
+  console.log(base);
 
   return (
     <View style={styles.misc.screen}>
@@ -38,12 +39,25 @@ export default function Currencies() {
       />
 
       <View
-        style={{ flexDirection: "row", alignItems: "center", marginTop: 16 }}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginTop: 16,
+          zIndex: 10000,
+        }}
       >
         <Text style={{ ...styles.text.h6, marginRight: 16 }}>
           Base Currency
         </Text>
-        <Picker
+        <SearchableDropdown
+          options={rates.map((rate, i) => ({
+            value: rate.currency,
+            title: rate.currency,
+          }))}
+          onChange={(value) => setBase(value as CSCurrencies)}
+          initialValue={base}
+        ></SearchableDropdown>
+        {/*<Picker
           selectedValue={base}
           onValueChange={(currency: CSCurrencies) => setBase(currency)}
           mode="dropdown"
@@ -53,7 +67,7 @@ export default function Currencies() {
           {currencies.map((currency, i) => (
             <Picker.Item key={i} label={currency} value={currency} />
           ))}
-        </Picker>
+          </Picker>*/}
       </View>
 
       {error != null && (

@@ -5,6 +5,7 @@ import misc from "./misc";
 import text from "./text";
 import inputs from "./inputs";
 import pickers from "./pickers";
+import dropdowns from "./dropdowns";
 
 export default {
   ...vars,
@@ -14,4 +15,5 @@ export default {
   ...text,
   ...inputs,
   ...pickers,
+  ...dropdowns,
 };
