@@ -12,6 +12,7 @@ export default (base: CSCurrencies) => {
   const [latest, setLatest] = useState<CSHookResponse<CSLatest> | null>(null);
 
   useEffect(() => {
+    if (latest != null) setLatest(null);
     const func = async () => {
       try {
         const res = await settings.axios.cs.get<CSResponse<CSLatest>>(

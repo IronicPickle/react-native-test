@@ -4,6 +4,7 @@ import useCsLatest from "../hooks/cs/useCsLatest";
 import styles from "../styles";
 import { CSCurrencies, CSRates } from "../interfaces/cs";
 import SearchableDropdown from "../components/common/SearchableDropdown";
+import { useEffect } from "react";
 
 interface CSRate {
   currency: string;
@@ -23,18 +24,6 @@ export default function Currencies() {
   return (
     <View style={styles.misc.screen}>
       <Text style={styles.text.h3}>Currencies</Text>
-
-      <TextInput
-        style={{
-          ...styles.inputs.outlined,
-          marginTop: 16,
-          width: 180,
-          textAlign: "center",
-        }}
-        placeholder="Search Currencies"
-        value={query}
-        onChangeText={(text) => setQuery(text)}
-      />
 
       <View
         style={{
@@ -57,8 +46,24 @@ export default function Currencies() {
         />
       </View>
 
+      <TextInput
+        style={{
+          ...styles.inputs.outlined,
+          marginTop: 16,
+          width: "100%",
+          textAlign: "center",
+        }}
+        placeholder="Search Currencies"
+        value={query}
+        onChangeText={(text) => setQuery(text)}
+      />
+
       {error != null && (
         <Text style={{ ...styles.text.h6, ...styles.text.red }}>{error}</Text>
+      )}
+
+      {data == null && (
+        <Text style={{ ...styles.text.h6, marginTop: 32 }}>Loading...</Text>
       )}
 
       {data != null && (

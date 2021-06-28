@@ -105,7 +105,6 @@ const SearchableDropdown = (props: Props) => {
             },
             styles.dropdowns.select.outlined,
           ]}
-          keyboardShouldPersistTaps="always"
         >
           {filteredOptions.length === 0 ? (
             <View style={styles.dropdowns.option}>
@@ -113,19 +112,19 @@ const SearchableDropdown = (props: Props) => {
             </View>
           ) : (
             filteredOptions.map((option, i) => (
-              <TouchableWithoutFeedback
-                key={i}
-                onPress={() => {
-                  setInputValue(option.value.toString());
-                  setFinalValue(option.value.toString());
-                  setModalVisible(false);
-                  Keyboard.dismiss();
-                }}
-              >
-                <Text {...optionProps} style={styles.dropdowns.option}>
-                  {option.title}
-                </Text>
-              </TouchableWithoutFeedback>
+              <View key={i}>
+                <TouchableWithoutFeedback
+                  onPressIn={() => {
+                    setInputValue(option.value.toString());
+                    setFinalValue(option.value.toString());
+                    setModalVisible(false);
+                  }}
+                >
+                  <Text {...optionProps} style={styles.dropdowns.option}>
+                    {option.title}
+                  </Text>
+                </TouchableWithoutFeedback>
+              </View>
             ))
           )}
         </ScrollView>

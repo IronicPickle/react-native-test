@@ -8,8 +8,8 @@ const common = {
   borderRadius: 12,
   borderWidth: 0,
   paddingHorizontal: 16,
-  paddingVertical: Platform.OS === "android" ? 10 : 12,
   maxHeight: 200,
+  zIndex: 10000,
 } as TextStyle;
 
 export const dropdowns = {
@@ -26,6 +26,7 @@ export const dropdowns = {
     } as TextStyle,
   },
   option: {
+    paddingVertical: Platform.OS === "android" ? 10 : 12,
     margin: 4,
     zIndex: 10000,
   } as ViewStyle,
