@@ -74,11 +74,14 @@ const SearchableDropdown = (props: Props) => {
   }, [options, onChange, finalValue]);
 
   useEffect(() => {
-    if (inputValue.length === 0) return;
     setFilteredOptions(
-      options.filter((option) => {
-        return option.value.toLowerCase().includes(inputValue.toLowerCase());
-      })
+      inputValue.length === 0
+        ? options
+        : options.filter((option) => {
+            return option.value
+              .toLowerCase()
+              .includes(inputValue.toLowerCase());
+          })
     );
   }, [setFilteredOptions, options, inputValue]);
 
@@ -89,9 +92,7 @@ const SearchableDropdown = (props: Props) => {
         style={[styles.inputs.outlined, inputProps?.style]}
         ref={inputRef}
         onFocus={() => setModalVisible(true)}
-        onBlur={(event) => {
-          //setModalVisible(false);
-        }}
+        onBlur={() => setTimeout(() => setModalVisible(false), 200)}
         value={inputValue}
         onChangeText={(text) => setInputValue(text)}
       />
@@ -107,23 +108,29 @@ const SearchableDropdown = (props: Props) => {
             styles.dropdowns.select.outlined,
           ]}
         >
-          {filteredOptions.map((option, i) => (
-            <Pressable
-              style={styles.dropdowns.option}
-              key={i}
-              {...optionProps}
-              android_ripple={{
-                radius: 128,
-              }}
-              onPress={() => {
-                setInputValue(option.value.toString());
-                setFinalValue(option.value.toString());
-                setModalVisible(false);
-              }}
-            >
-              <Text>{option.title}</Text>
-            </Pressable>
-          ))}
+          {filteredOptions.length === 0 ? (
+            <View style={styles.dropdowns.option}>
+              <Text>No matches</Text>
+            </View>
+          ) : (
+            filteredOptions.map((option, i) => (
+              <Pressable
+                style={styles.dropdowns.option}
+                key={i}
+                {...optionProps}
+                android_ripple={{
+                  radius: 128,
+                }}
+                onPress={() => {
+                  setInputValue(option.value.toString());
+                  setFinalValue(option.value.toString());
+                  setModalVisible(false);
+                }}
+              >
+                <Text>{option.title}</Text>
+              </Pressable>
+            ))
+          )}
         </ScrollView>
       )}
     </View>
