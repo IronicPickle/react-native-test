@@ -3,7 +3,6 @@ import { View, Text, FlatList, TextInput } from "react-native";
 import useCsLatest from "../hooks/cs/useCsLatest";
 import styles from "../styles";
 import { CSCurrencies, CSRates } from "../interfaces/cs";
-import { currencies } from "../utils/generic";
 import SearchableDropdown from "../components/common/SearchableDropdown";
 
 interface CSRate {
@@ -17,10 +16,9 @@ export default function Currencies() {
 
   const { data, error } = useCsLatest(base) || {};
 
-  let rates = ratesToArray(data?.rates);
-  if (query.length > 0) rates = filterRatesArray(rates, query);
-  rates = sortRatesArray(rates, 1);
-  console.log(base);
+  const rates = sortRatesArray(ratesToArray(data?.rates), "currency", 1);
+  let filteredRates = sortRatesArray(ratesToArray(data?.rates), "rate", 1);
+  if (query.length > 0) filteredRates = filterRatesArray(filteredRates, query);
 
   return (
     <View style={styles.misc.screen}>
@@ -50,24 +48,13 @@ export default function Currencies() {
           Base Currency
         </Text>
         <SearchableDropdown
-          options={rates.map((rate, i) => ({
+          options={rates.map((rate) => ({
             value: rate.currency,
             title: rate.currency,
           }))}
           onChange={(value) => setBase(value as CSCurrencies)}
           initialValue={base}
-        ></SearchableDropdown>
-        {/*<Picker
-          selectedValue={base}
-          onValueChange={(currency: CSCurrencies) => setBase(currency)}
-          mode="dropdown"
-          style={styles.pickers.outlined}
-          itemStyle={styles.pickers.item}
-        >
-          {currencies.map((currency, i) => (
-            <Picker.Item key={i} label={currency} value={currency} />
-          ))}
-          </Picker>*/}
+        />
       </View>
 
       {error != null && (
@@ -76,7 +63,7 @@ export default function Currencies() {
 
       {data != null && (
         <FlatList
-          data={rates}
+          data={filteredRates}
           renderItem={({ item }) => {
             const { currency, rate } = item;
             return (
@@ -120,8 +107,16 @@ function filterRatesArray(rates: CSRate[], query: string) {
   return rates.filter((rate) => rate.currency.includes(query.toUpperCase()));
 }
 
-function sortRatesArray(rates: CSRate[], direction: 1 | -1) {
-  return rates.sort((a, b) =>
-    direction > 0 ? a.rate - b.rate : a.rate - b.rate
-  );
+function sortRatesArray(rates: CSRate[], key: keyof CSRate, direction: 1 | -1) {
+  return rates.sort((a, b) => {
+    const [aIndexed, bIndexed] = [a[key], b[key]];
+    if (typeof aIndexed === "string" && typeof bIndexed === "string") {
+      return direction > 0
+        ? aIndexed.localeCompare(bIndexed)
+        : bIndexed.localeCompare(aIndexed);
+    } else if (typeof aIndexed === "number" && typeof bIndexed === "number") {
+      return direction > 0 ? aIndexed - bIndexed : aIndexed - bIndexed;
+    }
+    return 0;
+  });
 }

@@ -1,4 +1,4 @@
-import { Platform, TextStyle } from "react-native";
+import { Platform, TextStyle, ViewStyle } from "react-native";
 import { colors } from "./vars";
 
 const common = {
@@ -27,8 +27,8 @@ export const dropdowns = {
   },
   option: {
     margin: 4,
-    cursor: "pointer",
-  },
+    zIndex: 10000,
+  } as ViewStyle,
 };
 
 export default { dropdowns };

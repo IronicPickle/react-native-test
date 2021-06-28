@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useLayoutEffect } from "react";
-import {
-  Pressable,
-  PressableProps,
-  ScrollView,
-  View,
-  ViewProps,
-} from "react-native";
+import { TextProps, View, ViewProps } from "react-native";
 import {
   Text,
   TextInput,
   TextInputProps,
   useWindowDimensions,
 } from "react-native";
-import { CSCurrencies } from "../../interfaces/cs";
 import styles from "../../styles";
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import { Keyboard } from "react-native";
 
 interface Option {
   value: string;
@@ -26,7 +24,7 @@ interface Option {
 interface Props {
   inputProps?: TextInputProps;
   viewProps?: ViewProps;
-  optionProps?: PressableProps;
+  optionProps?: TextProps;
   options?: Option[];
   initialValue?: string;
   onChange: (value: string) => void;
@@ -92,7 +90,7 @@ const SearchableDropdown = (props: Props) => {
         style={[styles.inputs.outlined, inputProps?.style]}
         ref={inputRef}
         onFocus={() => setModalVisible(true)}
-        onBlur={() => setTimeout(() => setModalVisible(false), 200)}
+        onBlur={() => setModalVisible(false)}
         value={inputValue}
         onChangeText={(text) => setInputValue(text)}
       />
@@ -107,6 +105,7 @@ const SearchableDropdown = (props: Props) => {
             },
             styles.dropdowns.select.outlined,
           ]}
+          keyboardShouldPersistTaps="always"
         >
           {filteredOptions.length === 0 ? (
             <View style={styles.dropdowns.option}>
@@ -114,21 +113,19 @@ const SearchableDropdown = (props: Props) => {
             </View>
           ) : (
             filteredOptions.map((option, i) => (
-              <Pressable
-                style={styles.dropdowns.option}
+              <TouchableWithoutFeedback
                 key={i}
-                {...optionProps}
-                android_ripple={{
-                  radius: 128,
-                }}
                 onPress={() => {
                   setInputValue(option.value.toString());
                   setFinalValue(option.value.toString());
                   setModalVisible(false);
+                  Keyboard.dismiss();
                 }}
               >
-                <Text>{option.title}</Text>
-              </Pressable>
+                <Text {...optionProps} style={styles.dropdowns.option}>
+                  {option.title}
+                </Text>
+              </TouchableWithoutFeedback>
             ))
           )}
         </ScrollView>
